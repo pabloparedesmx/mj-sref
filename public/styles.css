@@ -47,15 +47,19 @@ body {
 
 .image-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, 1fr);  /* 2 columns */
+    grid-template-rows: repeat(2, 1fr);     /* 2 rows */
     gap: 20px;
     width: 100%;
+    max-width: 800px;  /* Adjust this value as needed */
     margin-bottom: 20px;
+    aspect-ratio: 1 / 1;  /* Maintain a square aspect ratio */
 }
 
 .image-grid img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;  /* This ensures the image covers the entire grid cell */
     border-radius: 8px;
 }
 
