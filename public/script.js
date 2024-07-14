@@ -1,4 +1,4 @@
-const XANO_API_URL = 'https://x8ki-letl-twmt.n7.xano.io/api:8WqDlSfR/midjourney_sref_explorer';
+const API_URL = 'https://x8ki-letl-twmt.n7.xano.io/api:8WqDlSfR/midjourney_sref_explorer';
 let isLoading = false;
 let lastFetchTime = 0;
 const COOLDOWN_PERIOD = 4000; // 4 seconds cooldown
@@ -28,7 +28,7 @@ function fetchRandomSref() {
     setLoading(true);
     lastFetchTime = Date.now();
 
-    fetch(XANO_API_URL)
+    fetch(API_URL)
         .then(response => {
             if (!response.ok) {
                 if (response.status === 429) {
@@ -45,7 +45,7 @@ function fetchRandomSref() {
                 if (uniqueSref) {
                     displaySref(uniqueSref);
                 } else {
-                    throw new Error('All available SREFs have been shown. Please check back tomorrow for new SREFs!');
+                    throw new Error('All available SREFs have been shown. Please check back later for new SREFs!');
                 }
             } else {
                 throw new Error('No SREF data received');
