@@ -101,6 +101,10 @@ button:active {
     background-color: transparent;
     color: var(--button-color);
     border: 2px solid var(--button-color);
+    display: flex; /* Use flexbox to center content */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    padding: 15px 25px; /* Increase padding by 5px on all sides */
 }
 
 #exploreAgain:not(:disabled) {

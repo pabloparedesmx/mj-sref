@@ -10,26 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchRandomSref();
     document.getElementById('exploreAgain').addEventListener('click', handleExploreClick);
     document.getElementById('copySref').addEventListener('click', copySrefCode);
-    
-    function setLoading(loading) {
-        isLoading = loading;
-        const exploreButton = document.getElementById('exploreAgain');
-        if (loading) {
-            exploreButton.disabled = true;
-            exploreButton.textContent = 'Loading...';
-        } else {
-            updateButtonState();
-        }
-    }
-    
-    function initializeApp() {
-        fetchRandomSref();
-        document.getElementById('exploreAgain').addEventListener('click', handleExploreClick);
-        document.getElementById('copySref').addEventListener('click', copySrefCode);
-    }
-    
-    document.addEventListener('DOMContentLoaded', initializeApp);
-    
 });
 
 function handleExploreClick() {
@@ -42,41 +22,49 @@ function handleExploreClick() {
     }
 }
 
-function fetchRandomSref() {
+async function fetchRandomSref() {
     if (isLoading) return;
     
     setLoading(true);
     lastFetchTime = Date.now();
 
-    fetch(API_URL)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Data received:', data);  // Log the received data
-            if (Array.isArray(data) && data.length > 0) {
-                allFetchedSREFs = allFetchedSREFs.concat(data);
-                const uniqueSref = findUniqueSref(allFetchedSREFs);
-                if (uniqueSref) {
-                    displaySref(uniqueSref);
-                } else {
-                    throw new Error('All available SREFs have been shown. Please check back later for new SREFs!');
-                }
+    // Fade out the current content
+    const imageGrid = document.getElementById('imageGrid');
+    const srefCode = document.getElementById('srefCode');
+    imageGrid.classList.add('fade-out');
+    srefCode.classList.add('fade-out');
+
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        
+        // Short delay to ensure fade-out is complete
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        if (Array.isArray(data) && data.length > 0) {
+            allFetchedSREFs = allFetchedSREFs.concat(data);
+            const uniqueSref = findUniqueSref(allFetchedSREFs);
+            if (uniqueSref) {
+                displaySref(uniqueSref);
             } else {
-                throw new Error('No SREF data received or data is not in expected format');
+                throw new Error('All available SREFs have been shown. Please check back later for new SREFs!');
             }
-        })
-        .catch(error => {
-            console.error('Error fetching SREF:', error);
-            document.getElementById('srefCode').textContent = 'Error fetching SREF. Please try again.';
-            showToast(error.message, true);
-        })
-        .finally(() => {
-            setLoading(false);
-        });
+        } else {
+            throw new Error('No SREF data received or data is not in expected format');
+        }
+    } catch (error) {
+        console.error('Error fetching SREF:', error);
+        srefCode.textContent = 'Error fetching SREF. Please try again.';
+        showToast(error.message, true);
+    } finally {
+        // Fade in the new content
+        imageGrid.classList.remove('fade-out');
+        srefCode.classList.remove('fade-out');
+        setLoading(false);
+    }
 }
 
 function findUniqueSref(data) {
@@ -99,29 +87,28 @@ function addToRecentSREFs(srefCode) {
 
 function displaySref(srefData) {
     const imageGrid = document.getElementById('imageGrid');
-    imageGrid.classList.add('fade-out');
-    
-    setTimeout(() => {
-        document.getElementById('srefCode').textContent = `--SREF ${srefData.SREF_Code}`;
-        displayImages(srefData);
-        imageGrid.classList.remove('fade-out');
-        imageGrid.classList.add('fade-in');
-    }, 500);
-}
+    const srefCode = document.getElementById('srefCode');
 
-function displayImages(srefData) {
-    const imageGrid = document.getElementById('imageGrid');
+    // Clear existing images
     imageGrid.innerHTML = '';
 
+    // Add new images
     for (let i = 1; i <= 4; i++) {
         const imageUrl = srefData[`Image_${i}`];
         if (imageUrl) {
             const img = document.createElement('img');
             img.src = imageUrl;
             img.alt = `SREF Image ${i}`;
+            img.classList.add('fade-out'); // Start faded out
             imageGrid.appendChild(img);
+
+            // Trigger reflow to ensure the fade-out class is applied before fading in
+            void img.offsetWidth;
+            img.classList.remove('fade-out');
         }
     }
+
+    srefCode.textContent = `--SREF ${srefData.SREF_Code}`;
 }
 
 function updateButtonState() {
