@@ -31,14 +31,12 @@ function fetchRandomSref() {
     fetch(API_URL)
         .then(response => {
             if (!response.ok) {
-                if (response.status === 429) {
-                    throw new Error('Too many requests. Please wait and try again.');
-                }
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json();
         })
         .then(data => {
+            console.log('Data received:', data);  // Log the received data
             if (Array.isArray(data) && data.length > 0) {
                 allFetchedSREFs = allFetchedSREFs.concat(data);
                 const uniqueSref = findUniqueSref(allFetchedSREFs);
@@ -48,7 +46,7 @@ function fetchRandomSref() {
                     throw new Error('All available SREFs have been shown. Please check back later for new SREFs!');
                 }
             } else {
-                throw new Error('No SREF data received');
+                throw new Error('No SREF data received or data is not in expected format');
             }
         })
         .catch(error => {
