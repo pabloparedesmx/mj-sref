@@ -16,21 +16,20 @@ body {
     color: var(--text-color);
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    height: 100%;
+    padding: 20px;
 }
 
 .header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .logo {
@@ -39,21 +38,19 @@ body {
 }
 
 .sref-container {
-    width: 100%;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    overflow: hidden;
 }
 
 .image-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 20px;
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto 20px;
-    aspect-ratio: 1 / 1;
+    gap: 10px;
+    flex-grow: 1;
+    overflow: hidden;
 }
 
 .image-grid img {
@@ -63,20 +60,29 @@ body {
     border-radius: 8px;
 }
 
+.sref-code-container {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
 .sref-code {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: bold;
-    margin-bottom: 20px;
+    text-align: center;
 }
 
 .button-container {
     display: flex;
+    justify-content: center;
     gap: 20px;
+    margin-top: 20px;
 }
 
 button {
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     background-color: var(--button-color);
@@ -124,6 +130,5 @@ button:disabled {
     .image-grid {
         grid-template-columns: 1fr;
         grid-template-rows: repeat(4, 1fr);
-        aspect-ratio: auto;
     }
 }
