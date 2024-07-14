@@ -31,6 +31,8 @@ body {
 .header {
     text-align: center;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .logo {
@@ -53,6 +55,7 @@ body {
     gap: 10px;
     flex: 1;
     overflow: hidden;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .image-grid img {
@@ -60,6 +63,7 @@ body {
     height: 100%;
     object-fit: cover;
     border-radius: 8px;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .sref-code {
@@ -69,12 +73,13 @@ body {
     padding: 15px 0;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .button-container {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 25px;
     margin-top: 20px;
 }
 
@@ -101,16 +106,13 @@ button:active {
     background-color: transparent;
     color: var(--button-color);
     border: 2px solid var(--button-color);
-    display: flex; /* Use flexbox to center content */
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    padding: 15px 25px; /* Increase padding by 5px on all sides */
+    padding: 15px 25px;
 }
 
 #exploreAgain:not(:disabled) {
-    background-color: transparent;
-    color: var(--button-color);
-    border: 2px solid var(--button-color);
+    background-color: var(--button-color);
+    color: var(--text-color);
+    border: none;
 }
 
 button:disabled {
@@ -132,6 +134,14 @@ button:disabled {
     border-radius: 5px;
     margin-top: 10px;
     opacity: 0.9;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+.fade-in {
+    opacity: 1;
 }
 
 @media (max-width: 768px) {
