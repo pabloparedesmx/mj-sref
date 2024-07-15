@@ -208,3 +208,34 @@ function showToast(message, isError = false) {
         toastContainer.removeChild(toast);
     }, 5000);
 }
+
+async function fetchAndDisplayElements() {
+    const response = await fetch('YOUR_XANO_API_ENDPOINT');
+    let elements = await response.json();
+    elements = elements.sort(() => 0.5 - Math.random()); // Randomly sort elements
+
+    const container = document.querySelector('.database-container');
+    container.innerHTML = ''; // Clear existing content
+
+    elements.forEach(element => {
+        const elementHTML = `
+            <div class="element-container">
+                <img src="${element.image1}" alt="">
+                <img src="${element.image2}" alt="">
+                <img src="${element.image3}" alt="">
+                <img src="${element.image4}" alt="">
+                <div>${element.srefCode}</div>
+                <button onclick="copySrefCode('${element.srefCode}')">COPY SREF CODE</button>
+            </div>
+        `;
+        container.innerHTML += elementHTML;
+    });
+}
+
+function copySrefCode(srefCode) {
+    navigator.clipboard.writeText(srefCode).then(() => {
+        alert('SREF Code copied to clipboard!');
+    });
+}
+
+fetchAndDisplayElements();
