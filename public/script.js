@@ -11,7 +11,28 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchRandomSref();
     document.getElementById('exploreAgain').addEventListener('click', handleExploreClick);
     document.getElementById('copySref').addEventListener('click', copySrefCode);
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        updateThemeToggleButton('light');
+    }
 });
+
+function toggleTheme() {
+    const body = document.body;
+    body.classList.toggle('light-mode');
+    const currentTheme = body.classList.contains('light-mode') ? 'light' : 'dark';
+    localStorage.setItem('theme', currentTheme);
+    updateThemeToggleButton(currentTheme);
+}
+
+function updateThemeToggleButton(theme) {
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+}
 
 function handleExploreClick() {
     const now = Date.now();
@@ -176,7 +197,8 @@ function showToast(message, isError = false) {
     const toast = document.createElement('div');
     toast.classList.add('toast');
     if (isError) {
-        toast.style.backgroundColor = 'red';
+        toast.style.backgroundColor = document.body.classList.contains('light-mode') ? '#ffcccc' : '#660000';
+        toast.style.color = document.body.classList.contains('light-mode') ? '#660000' : '#ffcccc';
     }
     toast.textContent = message;
     toastContainer.appendChild(toast);
