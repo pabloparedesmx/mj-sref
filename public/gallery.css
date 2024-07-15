@@ -52,3 +52,29 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Add a back button for the gallery page */
+.back-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--button-color);
+    color: var(--text-color);
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: opacity 0.3s;
+}
+
+.back-button:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .back-button {
+        position: static;
+        margin-top: 10px;
+    }
+}
