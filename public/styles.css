@@ -46,7 +46,7 @@ body {
     flex-direction: column;
     gap: 10px;
     overflow: hidden;
-    max-height: calc(100vh - 250px); /* Adjust this value as needed */
+    max-height: calc(100vh - 150px); /* Adjust this value as needed */
 }
 
 .image-grid {
