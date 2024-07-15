@@ -1,4 +1,4 @@
-const API_URL = 'https://x8ki-letl-twmt.n7.xano.io/api:8WqDlSfR/midjourney_sref_explorer_all';
+const API_URL = 'https://x8ki-letl-twmt.n7.xano.io/api:8WqDlSfR/midjourney_sref_explorer';
 
 document.addEventListener('DOMContentLoaded', fetchAllSrefs);
 
