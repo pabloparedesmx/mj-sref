@@ -205,12 +205,26 @@ button:active {
         font-size: 14px;
     }
 }
-.database-container {
+#sref-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px;
 }
-.element-container {
-    /* Styles for each element */
+
+.sref-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+}
+
+.image-grid img {
+    width: 100%;
+    height: auto;
 }
