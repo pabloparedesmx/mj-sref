@@ -144,8 +144,13 @@ function setLoading(loading) {
 }
 
 function copySrefCode() {
-    const srefCode = document.getElementById('srefCode').textContent;
-    navigator.clipboard.writeText(srefCode)
+    const srefCodeElement = document.getElementById('srefCode');
+    const srefText = srefCodeElement.textContent;
+    
+    // Convert 'SREF' to lowercase, keeping the rest unchanged
+    const formattedSref = srefText.replace(/--SREF/i, '--sref');
+
+    navigator.clipboard.writeText(formattedSref)
         .then(() => {
             showToast('SREF Code copied to clipboard!');
         })
