@@ -3,8 +3,9 @@ let isLoading = false;
 let lastFetchTime = 0;
 const COOLDOWN_PERIOD = 4000; // 4 seconds cooldown
 const recentSREFs = new Set(); // Store recently shown SREFs
-const MAX_RECENT_SREFS = 10; // Maximum number of recent SREFs to remember
+let MAX_RECENT_SREFS = 20; // Initial value, will be updated dynamically
 let allFetchedSREFs = []; // Store all fetched SREFs
+let totalSREFsCount = 0; // Total number of SREFs in the database
 
 document.addEventListener('DOMContentLoaded', function() {
     fetchRandomSref();
@@ -46,6 +47,11 @@ async function fetchRandomSref() {
 
         if (Array.isArray(data) && data.length > 0) {
             allFetchedSREFs = allFetchedSREFs.concat(data);
+            
+            // Update total SREFs count and MAX_RECENT_SREFS
+            totalSREFsCount = Math.max(totalSREFsCount, allFetchedSREFs.length);
+            updateMaxRecentSREFs();
+
             const uniqueSref = findUniqueSref(allFetchedSREFs);
             if (uniqueSref) {
                 displaySref(uniqueSref);
@@ -65,6 +71,11 @@ async function fetchRandomSref() {
         srefCode.classList.remove('fade-out');
         setLoading(false);
     }
+}
+
+function updateMaxRecentSREFs() {
+    // Set MAX_RECENT_SREFS to be 90% of total SREFs, with a minimum of 20
+    MAX_RECENT_SREFS = Math.max(20, Math.floor(totalSREFsCount * 0.9));
 }
 
 function findUniqueSref(data) {
