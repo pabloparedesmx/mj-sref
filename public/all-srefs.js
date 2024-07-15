@@ -2,13 +2,28 @@ document.addEventListener('DOMContentLoaded', fetchAllSrefs);
 
 async function fetchAllSrefs() {
     try {
-        const response = await fetch('/api/all-srefs');
-        const data = await response.json();
-        displaySrefs(data);
+      const response = await fetch('/api/all-srefs');
+      const text = await response.text();
+      console.log('Raw response:', text);
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
+      }
+  
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (parseError) {
+        console.error('Error parsing JSON:', parseError);
+        throw new Error(`Invalid JSON response: ${text.substring(0, 100)}...`);
+      }
+  
+      displaySrefs(data);
     } catch (error) {
-        console.error('Error:', error);
+      console.error('Error fetching SREFs:', error);
+      document.getElementById('sref-grid').innerHTML = `<p>Error loading SREFs: ${error.message}</p>`;
     }
-}
+  }
 
 function displaySrefs(srefs) {
     const grid = document.getElementById('sref-grid');
@@ -36,3 +51,6 @@ function copySrefCode(code) {
         .then(() => alert('SREF code copied!'))
         .catch(err => console.error('Error copying code:', err));
 }
+
+
+
